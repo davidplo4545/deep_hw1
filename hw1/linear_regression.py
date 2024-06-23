@@ -3,6 +3,7 @@ import sklearn
 from pandas import DataFrame
 from typing import List
 from sklearn.base import BaseEstimator, RegressorMixin, TransformerMixin
+import sklearn.model_selection
 from sklearn.utils import check_array
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -250,7 +251,23 @@ def cv_best_hyperparams(
     #  - You can use MSE or R^2 as a score.
 
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
-    # ========================
+    best_params = {}
+    best_score = -np.inf
+
+    kf = sklearn.model_selection.KFold(n_splits=k_folds, shuffle=True)
+
+    for degree in degree_range:
+        for lambd in lambda_range:
+            model.set_params(bostonfeaturestransformer__degree=degree, linearregressor__reg_lambda=lambd)  # Adjust parameter names as needed
+
+            scores = sklearn.model_selection.cross_val_score(model, X, y, cv=kf, scoring='neg_mean_squared_error')
+            avg_score = np.mean(scores)
+
+            if avg_score > best_score:
+                best_score = avg_score
+                best_params = model.get_params()
 
     return best_params
+
+    # ========================
+

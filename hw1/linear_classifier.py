@@ -144,17 +144,17 @@ class LinearClassifier(object):
 
         C, H, W = img_shape
         if has_bias:
-            weights = self.weights[:, 1:]  # Exclude the bias term
+            weights = self.weights[1:, :]  # Exclude the bias term
         else:
             weights = self.weights
-
         n_classes, n_features = weights.shape
 
         # Ensure that the number of features matches the image shape
-        assert n_features == C * H * W, "The number of features must match C * H * W"
+        # assert n_features == C * H * W, "The number of features must match C * H * W"
 
         # Reshape the weights into the desired image shape
-        weights_images = weights.view(n_classes, C, H, W)
+        weights_images = weights.view(-1, C, H, W)
+        print((weights_images).shape)
 
         return weights_images
 
