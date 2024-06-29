@@ -88,8 +88,8 @@ def fit_predict_dataframe(
     if feature_names is None:
         feature_names = df.columns.tolist()
         feature_names.remove(target_name)
-    X = df[feature_names]
-    y = df[target_name]
+    X = df[feature_names].to_numpy()
+    y = df[target_name].to_numpy()
     y_pred = model.fit_predict(X, y)
     # ========================
     return y_pred

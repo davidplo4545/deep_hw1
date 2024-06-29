@@ -154,10 +154,7 @@ class LinearClassifier(object):
         # assert n_features == C * H * W, "The number of features must match C * H * W"
 
         # Reshape the weights into the desired image shape
-        print("The size is")
-        print(weights.shape)
         weights_images = weights.T.view(-1, C, H, W)
-        print((weights_images).shape)
 
         return weights_images
 
